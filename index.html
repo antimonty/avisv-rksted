@@ -2,83 +2,97 @@
 <html lang="da">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Avisværkstedet – 4 faser (med oplæsning og indtale)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Avisværksted – Elevudgave V6 (Research→Udkast • Skriv side‑om‑side)</title>
 <style>
-  :root{
-    --ink:#243b53; --paper:#fff9f0; --accent:#d6614f; --soft:#dbe7f3; --line:#cbd2d9;
-    --ok:#2e7d32; --warn:#ef6c00; --blue:#5b8def;
-  }
-  body{font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin:0; background:#e6eff6; color:var(--ink);} 
-  header{background:var(--paper); border-bottom:2px solid var(--line); padding:16px 20px; position:sticky; top:0; z-index:5}
-  h1{margin:0; font-size: clamp(22px, 3.5vw, 36px); letter-spacing:1px}
-  .container{max-width:1000px; margin:0 auto; padding:20px}
-  .bar{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px}
-  .step{flex:1 1 160px; background:#fff; border:2px solid var(--line); border-radius:10px; padding:10px 12px; display:flex; align-items:center; gap:8px; font-weight:600; cursor:pointer; transition:all 0.2s}
-  .step:hover{border-color:var(--accent); transform:translateY(-1px)}
-  .step.active{border-color:var(--accent); box-shadow:0 2px 0 var(--accent) inset}
-  .step.completed{border-color:var(--ok); background:#f1f8e9}
-  .step.completed::after{content:'✓'; color:var(--ok); font-weight:bold}
-  .screen{background:var(--paper); border:2px solid var(--line); border-radius:14px; padding:18px; display:none; animation:fadeIn 0.3s}
-  .screen.show{display:block;}
-  @keyframes fadeIn{from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)}}
-  label{font-weight:600; display:block; margin:.75rem 0 .25rem}
-  input[type=text], textarea, select{width:100%; padding:10px 12px; border:2px solid var(--line); border-radius:10px; font:inherit; background:#fff; box-sizing:border-box}
-  input:focus, textarea:focus, select:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 2px rgba(214,97,79,0.1)}
-  textarea{min-height:110px; resize:vertical}
-  .row{display:grid; grid-template-columns: 1fr; gap:14px}
-  @media(min-width:760px){ .row{grid-template-columns: 1fr 1fr}}
-  .hint{font-size:.9rem; color:#516c86; line-height:1.4}
-  .btn{appearance:none; border:none; background:var(--accent); color:white; padding:12px 16px; border-radius:12px; font-weight:700; cursor:pointer; transition:all 0.2s}
-  .btn:hover{background:#c4553f; transform:translateY(-1px)}
-  .btn:disabled{background:#ccc; cursor:not-allowed; transform:none}
-  .btn.sec{background:#5b8def}
-  .btn.sec:hover{background:#4a7ae6}
-  .btn.ghost{background:#fff; color:var(--ink); border:2px solid var(--line)}
-  .btn.ghost:hover{background:#f8f9fa; border-color:var(--accent)}
-  .tools{display:flex; gap:8px; align-items:stretch}
-  .tools input, .tools textarea{flex:1}
-  .tools button{border:none; background:#fff; border:2px solid var(--line); width:40px; height:40px; border-radius:10px; cursor:pointer; font-size:18px; flex-shrink:0; transition:all 0.2s}
-  .tools button:hover{background:#f8f9fa; border-color:var(--accent)}
-  .tools button:disabled{background:#f5f5f5; cursor:not-allowed}
-  .card{background:#fff; border:2px solid var(--line); border-radius:12px; padding:12px}
-  .output{white-space:pre-wrap; background:#eef6ff; border:2px dashed #b6c3d1; padding:12px; border-radius:10px; min-height:60px}
-  .notice{background:#fff8e1; border:2px solid #ffe0b2; padding:10px 12px; border-radius:10px; margin:10px 0}
-  .error{background:#ffebee; border:2px solid #ffcdd2; padding:10px 12px; border-radius:10px; color:#c62828}
-  .success{background:#f1f8e9; border:2px solid #c8e6c9; padding:10px 12px; border-radius:10px; color:#2e7d32}
-  .progress{width:100%; height:6px; background:#e0e0e0; border-radius:3px; overflow:hidden; margin:10px 0}
-  .progress-bar{height:100%; background:var(--accent); transition:width 0.3s}
-  .spinner{display:inline-block; width:16px; height:16px; border:2px solid #f3f3f3; border-top:2px solid var(--accent); border-radius:50%; animation:spin 1s linear infinite}
-  @keyframes spin{0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)}}
-  .speaking{background:var(--warn) !important; color:white}
-  .ai-settings{background:#f8f9fa; border:2px solid var(--line); border-radius:10px; padding:12px; margin:10px 0}
-  .ai-level{display:flex; gap:8px; align-items:center; margin:8px 0}
-  .ai-level input[type=radio]{margin-right:6px}
+  :root{ --ink:#253044; --muted:#7a879a; --bg:#f7f9fc; --paper:#ffffff; --line:#e8edf3; --accent:#e58a7d; --accent-2:#7c91e6; --ok:#2e7d32; --warn:#cf6a2a; --shadow:0 8px 24px rgba(21,37,72,.06); }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);
+    background:radial-gradient(1200px 500px at 10% -20%,#eef3fb 0%,transparent 60%),radial-gradient(900px 400px at 90% -10%,#fdf1ee 0%,transparent 55%),var(--bg)}
+  .top{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  .wrap{max-width:1100px;margin:0 auto;padding:14px 18px}
+  .brand{display:flex;align-items:center;gap:12px;justify-content:space-between}
+  .brand-left{display:flex;align-items:center;gap:12px}
+  .logo{font-weight:800;letter-spacing:.2px;font-size:clamp(22px,4vw,32px)}
+  .badge{background:linear-gradient(135deg,#f8a46b,#ec7d55);color:#fff;padding:4px 10px;border-radius:10px;font-weight:700;font-size:12px;box-shadow:var(--shadow)}
+  .brand-right{display:flex;align-items:center;gap:8px}
+  .btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 14px;border-radius:14px;font-weight:800;cursor:pointer;box-shadow:0 1px 0 rgba(0,0,0,.02)}
+  .btn.primary{background:var(--accent);color:#fff;border:none;box-shadow:0 6px 16px rgba(236,132,109,.25)}
+  .btn.alt{background:var(--accent-2);color:#fff;border:none;box-shadow:0 6px 16px rgba(124,145,230,.25)}
+  .btn.ghost{background:#fff}
+  .btn:disabled{opacity:.6;cursor:not-allowed}
+  .icon{width:22px;height:22px;display:inline-grid;place-items:center}
+
+  .stepper{display:flex;gap:14px;align-items:center;overflow-x:auto;padding:10px 0}
+  .step{position:relative;display:flex;align-items:center;gap:10px;padding:12px 14px 24px;border-radius:16px;font-weight:700;white-space:nowrap;cursor:pointer;background:linear-gradient(180deg,#fff,#fafcfe);border:1px solid var(--line)}
+  .step.active{border-color:var(--accent);box-shadow:0 0 0 4px rgba(229,138,125,.16)}
+  .step.completed{border-color:#bfe3c2;background:linear-gradient(180deg,#ffffff,#f7fbf8)}
+  .step::after{content:"";position:absolute;left:16px;right:16px;bottom:6px;height:6px;border-radius:999px;background:#eaeef7}
+  .step[data-step="s1"]::after{background:#f6c3b4}
+  .step[data-step="s2"]::after{background:#bdc9fb}
+  .step[data-step="s3"]::after{background:#c5ecd3}
+  .step[data-step="s4"]::after{background:#fbe7a2}
+
+  main{max-width:1100px;margin:18px auto 28px;padding:0 18px}
+  .panel{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:var(--shadow)}
+  .panel h2{margin:0 0 6px;font-size:clamp(18px,2.6vw,26px)}
+  .sub{color:var(--muted);margin:0 0 12px;font-size:14px}
+  .grid{display:grid;grid-template-columns:1fr;gap:16px}
+  @media(min-width:1000px){.grid{grid-template-columns:1.1fr .9fr}}
+  label{font-weight:800;display:block;margin:6px 0}
+  .field{display:flex;gap:10px;align-items:center}
+  input[type=text],textarea,select{flex:1;width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:14px;font:inherit;background:#fff}
+  textarea{min-height:120px}
+  .help{background:#fff8e7;border:1px solid #ffe1b3;border-radius:12px;padding:12px;font-size:14px}
+  .hint{font-size:13px;color:var(--muted)}
+  .output{white-space:pre-wrap;background:#f0f5ff;border:1px dashed #cbd5e1;padding:12px;border-radius:10px;min-height:60px}
+  .ideas{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px}
+  .ideas h3{margin:0 0 6px;font-size:16px}
+  .ideas ul{list-style:none;margin:0;padding:0}
+  .ideas li{padding:8px 10px;border:1px solid var(--line);border-radius:10px;margin-bottom:6px;cursor:pointer}
+  .ideas li:hover{box-shadow:var(--shadow)}
+  .list{list-style:none;margin:6px 0 0;padding:0}
+  .list li{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-bottom:6px}
+
+  .split{display:grid;gap:16px}
+  @media(min-width:1000px){.split{grid-template-columns:1fr 1fr}}
+  .card{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff}
+  .slider-row{display:flex;align-items:center;gap:10px}
+  input[type=range]{width:100%}
+
+  @media print{ header,.no-print{display:none!important} .print-only{display:block} }
+  .print-only{display:none}
 </style>
 </head>
 <body>
-  <header>
-    <div class="container">
-      <h1>📰 AVISVÆRKSTEDET</h1>
-      <div class="progress">
-        <div class="progress-bar" id="progressBar" style="width:25%"></div>
+  <header class="top">
+    <div class="wrap">
+      <div class="brand">
+        <div class="brand-left">
+          <div class="logo">AVISVÆRKSTEDET</div>
+          <div class="badge">ELEVUDGAVE</div>
+        </div>
+        <div class="brand-right">
+          <button class="btn" id="saveBtn" title="Gem i denne browser">💾 Gem kladde</button>
+          <button class="btn" id="settingsBtn" title="Indstillinger" style="display:none">⚙️ Indstillinger</button>
+        </div>
       </div>
-      <div class="bar" id="stepbar">
-        <div class="step active" data-go="s1">1) Idé</div>
-        <div class="step" data-go="s2">2) Arbejde ude</div>
-        <div class="step" data-go="s3">3) Skriv fakta</div>
-        <div class="step" data-go="s4">4) Redigér & layout</div>
-      </div>
+      <nav class="stepper" id="stepper">
+        <div class="step active" data-step="s1"><span class="icon">💡</span><span>Idé</span></div>
+        <div class="step" data-step="s2"><span class="icon">🔎</span><span>Research</span></div>
+        <div class="step" data-step="s3"><span class="icon">✍️</span><span>Skriv</span></div>
+        <div class="step" data-step="s4"><span class="icon">📰</span><span>Avisside</span></div>
+      </nav>
     </div>
   </header>
 
-  <main class="container">
-
-    <!-- S1 -->
-    <section id="s1" class="screen show">
+  <main class="no-print">
+    <!-- S1: Idé -->
+    <section id="s1" class="panel">
       <h2>Fase 1 · Idé & vinkel</h2>
-      <div class="row">
-        <div class="card">
+      <p class="sub">Find først emne og vinkel. Lav derefter arbejdsark til research.</p>
+      <div class="grid">
+        <div>
           <label>Artikeltype</label>
           <select id="type">
             <option value="nyhed">Nyhed</option>
@@ -86,909 +100,301 @@
             <option value="interview">Interview</option>
             <option value="feature">Feature</option>
             <option value="debat">Holdningsindlæg</option>
+            <option value="ugen-der-gik">AVIS: Ugen der gik</option>
+            <option value="naeste-uge">AVIS: Næste uge</option>
           </select>
-          <label>Idé (emne)</label>
-          <div class="tools">
-            <input id="idea" type="text" placeholder="F.eks. Kantinen skifter menu"> 
-            <button title="Læs op" onclick="toggleSpeak('#idea', this)">🔊</button>
-            <button title="Indtal" onclick="dictate('#idea')">🎤</button>
+
+          <label>Emne</label>
+          <div class="field">
+            <input id="idea" type="text" placeholder="Fx: Kantinen skifter menu" />
           </div>
-          <label>Vinkel (hvad er det vigtigste?)</label>
-          <div class="tools">
-            <input id="angle" type="text" placeholder="F.eks. Flere vegetarretter efter elevønske">
-            <button onclick="toggleSpeak('#angle', this)">🔊</button>
-            <button onclick="dictate('#angle')">🎤</button>
+
+          <label>Vinkel eller spørgsmål</label>
+          <div class="field">
+            <input id="angle" type="text" placeholder="Fx: Flere vegetarretter efter elevønske" />
           </div>
-          <div class="ai-settings">
-            <strong>🤖 AI-indstillinger:</strong>
-            <div class="ai-level">
-              <input type="radio" name="aiLevel" value="basic" id="aiBasic" checked>
-              <label for="aiBasic">Grundlæggende hjælp</label>
-            </div>
-            <div class="ai-level">
-              <input type="radio" name="aiLevel" value="advanced" id="aiAdvanced">
-              <label for="aiAdvanced">Avanceret AI-assistent</label>
-            </div>
-            <div class="ai-level">
-              <input type="radio" name="aiLevel" value="creative" id="aiCreative">
-              <label for="aiCreative">Kreativ AI-medskribent</label>
-            </div>
+
+          <div class="field" style="gap:8px;flex-wrap:wrap">
+            <button class="btn" id="ideaHelp">💡 Idé‑hjælp</button>
+            <button class="btn" id="worksheet">🖨️ Lav arbejdsark</button>
+            <button class="btn primary" id="toS2">Videre til research</button>
           </div>
-          <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap">
-            <button class="btn sec" onclick="aiIdeaHelp()" id="ideaBtn">💡 Få idé-hjælp</button>
-            <button class="btn" onclick="makeWorksheet()" id="worksheetBtn">🖨️ Lav arbejdsark</button>
-            <button class="btn ghost" onclick="validateAndNext('s2')" id="nextBtn1">Videre til fase 2</button>
+        </div>
+        <aside>
+          <div class="help">
+            <strong>Sådan arbejder vi:</strong>
+            <ul style="margin:8px 0 0 18px;padding:0">
+              <li>I finder idé og vinkel</li>
+              <li>I laver ALT research (interviews, fakta, citater)</li>
+              <li>AI hjælper kun med at formulere</li>
+            </ul>
           </div>
-          <p class="hint">Arbejdsarket kan printes – tag det med ud, når I interviewer og undersøger.</p>
-          <div id="validation1"></div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- S2: Research – identisk med arbejdsarkfelter -->
+    <section id="s2" class="panel" style="display:none">
+      <h2>Fase 2 · Research</h2>
+      <p class="sub">Skriv jeres noter her – helt som i arbejdsarket. Vi laver et første udkast af brødteksten for jer.</p>
+      <div class="grid">
+        <div>
+          <label>Fakta (hvad/hvor/hvornår/hvem)</label>
+          <textarea id="r_facts" placeholder="Datoer, tal, navne, beslutninger… ét pr. linje"></textarea>
+          <label>Citater (ordret + navn/rolle)</label>
+          <textarea id="r_quotes" placeholder='"Det her sagde personen" – Navn, rolle'></textarea>
+          <label>Observationer/detaljer</label>
+          <textarea id="r_obs" placeholder="Stikord og indtryk… ét pr. linje"></textarea>
+          <label>Billede‑idé (valgfri)</label>
+          <input id="r_photo" type="text" placeholder="Fx: Drage i modlys over boldbanen">
+
+          <div class="field" style="gap:8px;flex-wrap:wrap;margin-top:10px">
+            <button class="btn alt" id="reopenWS">📗 Åbn arbejdsark</button>
+            <button class="btn primary" id="compileToDraft">Lav brødtekst‑afsæt</button>
+            <button class="btn" id="toS3" disabled>Videre til skriv</button>
+          </div>
+        </div>
+        <aside>
+          <div class="help">
+            Tip: Hold citater i "…". Vi ændrer kun stavning/tegn i citater – ikke indholdet.
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- S3: Skriv – side‑om‑side med slider -->
+    <section id="s3" class="panel" style="display:none">
+      <h2>Fase 3 · Skriv – vælg mellem din tekst og AI‑forslag</h2>
+      <div class="split">
+        <div class="card">
+          <h3 style="margin:0 0 6px">Din brødtekst</h3>
+          <textarea id="studentBody" placeholder="Din tekst…"></textarea>
+          <div class="field" style="justify-content:flex-end;gap:8px;margin-top:8px">
+            <button class="btn ghost" id="continueNoAI">Fortsæt uden AI‑hjælp</button>
+          </div>
         </div>
         <div class="card">
-          <p class="hint"><strong>Tip:</strong> En god idé kan beskrives med 25 ord. Brug navn + sted + hvad der sker + hvorfor det betyder noget.</p>
-          <div class="notice">Har I ingen idé? Tryk <em>Få idé-hjælp</em> – så får I 3 forslag med vinkler og mulige kilder.</div>
-          <div id="ideaSuggestions"></div>
+          <h3 style="margin:0 0 6px">AI‑forslag</h3>
+          <div class="slider-row">
+            <span class="hint" style="min-width:80px">Hjælp: </span>
+            <input type="range" id="helpSlider" min="0" max="100" step="25" value="0"/>
+            <span id="helpLabel" class="hint" style="min-width:100px;text-align:right">Fra</span>
+          </div>
+          <div class="hint" style="margin:6px 0 8px">Træk i skyderen for mere hjælp. 0% = ingen, 100% = maks sprogløft + udvidelse. (Kører uden nøgle: lokal sproghjælp).</div>
+          <div id="aiSuggestion" class="output" style="min-height:160px">(AI‑forslag vises her)</div>
+          <div class="field" style="justify-content:flex-end;gap:8px;margin-top:8px">
+            <button class="btn" id="regen">Opdatér forslag</button>
+            <button class="btn primary" id="adoptAI">Erstat min tekst med forslaget</button>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- S2 -->
-    <section id="s2" class="screen">
-      <h2>Fase 2 · Interviews og undersøgelser</h2>
-      <div class="card">
-        <p>Print jeres arbejdsark fra fase 1. Brug det til at samle <strong>fakta, citater og observationer</strong>. Når I er færdige, gå til fase 3.</p>
-        <div class="notice">
-          <strong>Tjekliste for fase 2:</strong><br>
-          □ Interviews med mindst 2 kilder<br>
-          □ Fakta indsamlet (hvad, hvor, hvornår)<br>
-          □ Direkte citater noteret<br>
-          □ Detaljer og observationer skrevet ned
-        </div>
-        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:15px">
-          <button class="btn" onclick="openLastWorksheet()">🗎 Åbn arbejdsark igen</button>
-          <button class="btn ghost" onclick="go('s3')">Videre til fase 3</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- S3 -->
-    <section id="s3" class="screen">
-      <h2>Fase 3 · Indtast fakta → AI laver kladde</h2>
-      <div class="row">
-        <div class="card">
-          <label>Fakta (hvad, hvor, hvornår, hvem)</label>
-          <div class="tools">
-            <textarea id="facts" placeholder="Dato, sted, tal, beslutninger …"></textarea>
-            <button onclick="toggleSpeak('#facts', this)">🔊</button>
-            <button onclick="dictate('#facts')">🎤</button>
-          </div>
-          <label>Citater (ordrette udsagn + hvem sagde det)</label>
-          <div class="tools">
-            <textarea id="quotes" placeholder="\"…\" – navn, rolle"></textarea>
-            <button onclick="toggleSpeak('#quotes', this)">🔊</button>
-            <button onclick="dictate('#quotes')">🎤</button>
-          </div>
-          <label>Detaljer/observationer</label>
-          <div class="tools">
-            <textarea id="details" placeholder="Sanser, stemning, beskrivelser …"></textarea>
-            <button onclick="toggleSpeak('#details', this)">🔊</button>
-            <button onclick="dictate('#details')">🎤</button>
-          </div>
-          <div style="margin-top:10px">
-            <button class="btn sec" onclick="makeDraft()" id="draftBtn">🪄 Lav brødtekst-kladde</button>
-            <div id="draftStatus" style="margin-top:8px"></div>
-          </div>
-        </div>
-        <div class="card">
-          <label>Kladde</label>
-          <div class="tools" style="margin-bottom:6px">
-            <button onclick="toggleSpeak('#draft', this)">🔊</button>
-            <button onclick="copyDraft()" title="Kopiér">📋</button>
-          </div>
-          <textarea id="draft" placeholder="Din kladde vises her …"></textarea>
-          <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap">
-            <button class="btn ghost" onclick="improveHeadline()">Rubrik-forslag</button>
-            <button class="btn ghost" onclick="shortenDraft()">Forkort 10%</button>
-            <button class="btn" onclick="validateAndNext('s4')" id="nextBtn3">Videre til fase 4</button>
-          </div>
-          <div id="validation3"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- S4 -->
-    <section id="s4" class="screen">
-      <h2>Fase 4 · Redigering & Avis-layout</h2>
-      <div class="row">
-        <div class="card">
+    <!-- S4: Avisside (rubrikforslag + kø + printfix) -->
+    <section id="s4" class="panel" style="display:none">
+      <h2>Fase 4 · Avisside</h2>
+      <p class="sub">1) Redigér artikel · 2) Tilføj til avisside · 3) Vis/Print</p>
+      <div class="grid">
+        <div>
           <label>Rubrik</label>
-          <input id="headline" type="text" placeholder="Skriv/indsæt rubrik">
-          <label>Underrubrik (2–3 linjer)</label>
-          <textarea id="sub" placeholder="Kort opsummering" style="min-height:60px"></textarea>
+          <input id="headline" type="text" placeholder="Skriv/vælg rubrik">
+          <div class="ideas" style="margin:6px 0 10px">
+            <h3>Rubrikforslag</h3>
+            <ul id="headlineIdeas4"></ul>
+          </div>
+          <label>Underrubrik</label>
+          <textarea id="sub" placeholder="Kort opsummering..." style="min-height:70px"></textarea>
           <label>Brødtekst</label>
-          <textarea id="body" placeholder="Redigér den endelige tekst her" style="min-height:200px"></textarea>
-          <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap">
-            <button class="btn ghost" onclick="polishBody()">Sprogforbedr</button>
-            <button class="btn ghost" onclick="checkReady()">Er den klar?</button>
-            <button class="btn" onclick="renderNewspaper()" id="renderBtn">📰 Vis avis-layout</button>
+          <textarea id="body" placeholder="Redigér teksten så den bliver præcis som I vil have den" style="min-height:220px"></textarea>
+
+          <label>Billeder (valgfrit)</label>
+          <div class="help">
+            <input type="file" id="imageUpload" accept="image/*" multiple>
+            <div class="hint">JPG/PNG · max 5 MB per billede</div>
+            <div id="imgMsg" class="hint" style="display:none;color:var(--ok);margin-top:6px">Billede tilføjet ✔</div>
           </div>
+          <div id="imagePreview" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px"></div>
+
+          <div class="field" style="gap:8px;flex-wrap:wrap;margin-top:10px">
+            <button class="btn alt" id="addToPage">➕ Tilføj denne artikel til avissiden</button>
+            <button class="btn" id="viewPage">📰 Vis avisside</button>
+            <button class="btn" id="clearPage">🧹 Ryd avisside</button>
+            <button class="btn primary" id="print">🖨️ Print/PDF</button>
+          </div>
+          <div class="hint" id="pageInfo"></div>
+          <ul class="list" id="pageList"></ul>
         </div>
-        <div class="card">
-          <p class="hint">Når layoutet ser rigtigt ud, kan du printe til PDF.</p>
+        <aside>
           <div id="ready" class="output"></div>
-          <div style="margin-top:10px">
-            <strong>Artikelstatistik:</strong>
-            <div id="stats" class="hint"></div>
-          </div>
-        </div>
+          <div class="hint" id="stats" style="margin-top:8px"></div>
+        </aside>
       </div>
     </section>
-
-    <!-- Newspaper preview -->
-    <section id="news" class="screen">
-      <h2>Forhåndsvisning · Avis</h2>
-      <iframe id="paper" style="width:100%; height:70vh; border:2px solid var(--line); border-radius:12px"></iframe>
-      <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap">
-        <button class="btn" onclick="printPaper()">🖨️ Print / Gem som PDF</button>
-        <button class="btn ghost" onclick="go('s4')">Tilbage til redigering</button>
-      </div>
-    </section>
-
   </main>
 
+  <!-- Avisside til print (flere artikler) -->
+  <div id="newspaper" class="print-only" style="display:none;margin:0 auto;max-width:900px;padding:12mm">
+    <div style="border-bottom:3px double #000;padding-bottom:10px;margin-bottom:20px;text-align:center">
+      <div style="font-size:28px;font-weight:800;letter-spacing:3px">SKOLE AVISEN</div>
+      <div id="newsDate" style="font-size:13px;color:#555;margin-top:4px"></div>
+    </div>
+    <div id="newsContent"></div>
+  </div>
+
+  <!-- Indstillinger (API-nøgle) -->
+  <dialog id="settingsDialog" style="border:1px solid var(--line);border-radius:14px;padding:16px;max-width:460px">
+    <h3 style="margin:0 0 8px">Indstillinger</h3>
+    <label>OpenAI API‑nøgle</label>
+    <input type="text" id="apiKey" placeholder="sk-..." style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px">
+    <p class="hint">Nøglen gemmes kun i denne browser (localStorage). Bruges til AI‑forslag i Skriv.</p>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
+      <button class="btn" id="closeSettings">Luk</button>
+      <button class="btn primary" id="saveSettings">Gem</button>
+    </div>
+  </dialog>
+
+  <div class="print-only" id="attribution" style="text-align:center;font-size:10px;color:#666;margin-top:6px"></div>
+  <div id="toast" style="position:fixed;right:18px;bottom:18px;background:#2b6adf;color:#fff;padding:10px 14px;border-radius:12px;font-weight:700;box-shadow:var(--shadow);opacity:0;transform:translateY(10px);transition:.25s">Avisværksted indlæst ✨</div>
+
 <script>
-// Global state
-const appState = {
-  currentStep: 's1',
-  completedSteps: [],
-  data: {},
-  lastWorksheet: null,
-  speaking: false,
-  currentUtterance: null,
-  aiLevel: 'basic'
-};
+(function(){
+  const state = { current:'s1', data:{}, images:[], usedAI:false, lastWorksheet:null, pageArticles:[], apiKey:null };
+  const $ = s=>document.querySelector(s); const $$ = s=>Array.from(document.querySelectorAll(s));
+  const toastEl = $('#toast');
+  function toast(msg){ toastEl.textContent=msg; toastEl.style.opacity=1; toastEl.style.transform='translateY(0)'; setTimeout(()=>{ toastEl.style.opacity=0; toastEl.style.transform='translateY(10px)'; }, 2000); }
+  toast('Klar! Udfyld Idé og Vinkel.');
 
-// Navigation
-const screens = ['s1','s2','s3','s4','news'];
+  // --- Navigation ---
+  function goTo(id){ ['s1','s2','s3','s4'].forEach(x=>$('#'+x).style.display = x===id?'block':'none');
+    $$('#stepper .step').forEach(st=>{ const a = st.getAttribute('data-step')===id; st.classList.toggle('active',a); st.classList.toggle('completed', ['s1','s2','s3','s4'].indexOf(st.dataset.step) < ['s1','s2','s3','s4'].indexOf(id)); });
+    state.current=id; window.scrollTo({top:0,behavior:'smooth'}); save(); if(id==='s4') makeHeadlineIdeas4(); }
+  $$('#stepper .step').forEach(el=> el.addEventListener('click',()=> goTo(el.dataset.step)));
+  $('#toS2').addEventListener('click', ()=>{ const idea=$('#idea').value.trim(), angle=$('#angle').value.trim(); if(!idea||!angle) return toast('Udfyld Idé og Vinkel først'); goTo('s2'); });
 
-function setupNavigation() {
-  document.querySelectorAll('.step').forEach(el => {
-    el.addEventListener('click', function() {
-      go(el.dataset.go);
-    });
+  // --- Save/Load ---
+  function save(){ ['idea','angle','type','r_facts','r_quotes','r_obs','r_photo','headline','sub','body','studentBody'].forEach(id=>{ const el=$('#'+id); if(el) state.data[id]=el.value; }); localStorage.setItem('avis_v6', JSON.stringify(state)); }
+  function load(){ try{ Object.assign(state, JSON.parse(localStorage.getItem('avis_v6'))||{}); }catch(e){}
+    const d=state.data||{}; ['idea','angle','type','r_facts','r_quotes','r_obs','r_photo','headline','sub','body','studentBody'].forEach(id=>{ const el=$('#'+id); if(el && d[id]) el.value=d[id]; }); if(state.apiKey){ $('#apiKey').value=state.apiKey; } updatePageInfo(); renderPageList(); }
+  $('#saveBtn').addEventListener('click', save);
+  ['idea','angle','type','r_facts','r_quotes','r_obs','r_photo','headline','sub','body','studentBody'].forEach(id=> $('#'+id).addEventListener('input', save));
+
+  // --- Settings ---
+  const dlg=$('#settingsDialog'); $('#settingsBtn').addEventListener('click',()=> dlg.showModal());
+  $('#closeSettings').addEventListener('click',()=> dlg.close());
+  $('#saveSettings').addEventListener('click',()=>{ state.apiKey=$('#apiKey').value.trim()||null; save(); dlg.close(); toast(state.apiKey?'API‑nøgle gemt':'API‑nøgle fjernet'); });
+
+  // --- Worksheet ---
+  function openWorksheet(){ const idea=($('#idea').value||'Din artikel').toUpperCase(); const angle=$('#angle').value||'Din vinkel'; const type=$('#type').value;
+    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Arbejdsark</title><style>body{font-family:Arial,Helvetica,sans-serif;margin:15mm;line-height:1.5}h1{margin:0 0 6px}.hdr{border-bottom:2px solid #333;padding-bottom:8px;margin-bottom:12px}.sec{border:1px solid #ccc;padding:8px;margin:10px 0}.notes{min-height:40px;border-bottom:1px dotted #999;margin:4px 0}.small{font-size:12px;color:#666}</style></head><body>
+    <div class="hdr"><h1>📰 ARBEJDSARK: ${idea}</h1><div class="small"><b>Type:</b> ${type} · <b>Vinkel:</b> ${angle} · Dato: ______ · Reporter: __________</div></div>
+    <div class="sec"><b>Plan (kilder & spørgsmål)</b><div class="notes"></div><div class="notes"></div></div>
+    <div class="sec"><b>Fakta (hvad/hvor/hvornår/hvem)</b><div class="notes"></div><div class="notes"></div></div>
+    <div class="sec"><b>Citater (ordret + navn)</b><div class="notes"></div><div class="notes"></div></div>
+    <div class="sec"><b>Observationer</b><div class="notes"></div></div>
+    <div class="sec"><b>Tjek</b> □ 2+ kilder □ Fakta verificeret □ Citater ordret □ Navne korrekte</div></body></html>`;
+    const w=open('','_blank'); if(w){ w.document.write(html); w.document.close(); state.lastWorksheet=html; save(); }
+  }
+  $('#worksheet').addEventListener('click', openWorksheet);
+  $('#reopenWS').addEventListener('click', ()=>{ if(state.lastWorksheet){ const w=open('','_blank'); w.document.write(state.lastWorksheet); w.document.close(); } else toast('Lav først et arbejdsark i Fase 1'); });
+
+  // --- Compile Research → Draft ---
+  function createDraftFromResearch(){
+    const type=$('#type').value, idea=$('#idea').value.trim(), angle=$('#angle').value.trim();
+    const facts=($('#r_facts').value||'').trim().split(/\n+/).filter(Boolean);
+    const quotes=($('#r_quotes').value||'').trim().split(/\n+/).filter(Boolean);
+    const obs=($('#r_obs').value||'').trim().split(/\n+/).filter(Boolean);
+    let a='';
+    if(type==='ugen-der-gik'){ a += `Ugen der gik bød på ${idea||'flere begivenheder'}. ${angle? angle+'. ':''}\n\n`; }
+    else if(type==='naeste-uge'){ a += `${angle||idea||'Kommende begivenheder'}\n\n`; }
+    else { a += `${angle||idea||''}\n\n`; }
+    if(facts.length) a += facts.map(x=>x.replace(/\s+/g,' ').replace(/\.$/,'')).join('. ') + '.\n\n';
+    if(quotes.length) a += quotes.map(line=>{ let t=line.trim(); if(!/^"/.test(t)) t='"'+t; if(!/[.!?]"?$/.test(t)) t=t.replace(/"?$/,',$&'); return t; }).join('\n\n') + '\n\n';
+    if(obs.length) a += obs.map(x=>x.replace(/\s+/g,' ').replace(/\.$/,'')+'.').join(' ') + '\n\n';
+    if(type==='ugen-der-gik') a+='Det var ugen der gik.';
+    return a.replace(/\n\n\n+/g,'\n\n').trim();
+  }
+
+  $('#compileToDraft').addEventListener('click', ()=>{
+    const draft = createDraftFromResearch();
+    if(!draft){ toast('Skriv lidt i researchfelterne først'); return; }
+    $('#studentBody').value = draft; state.data.studentBody=draft; save(); toast('Udkast lavet – gå videre til Skriv'); $('#toS3').disabled=false; });
+  $('#toS3').addEventListener('click', ()=> goTo('s3'));
+
+  // --- Skriv: Slider‑styret AI‑forslag ---
+  const slider=$('#helpSlider'); const helpLabel=$('#helpLabel'); const aiBox=$('#aiSuggestion');
+  function levelLabel(v){ return ({0:'Fra',25:'Lidt',50:'Mellem',75:'Meget',100:'Maks'})[v]||'Fra'; }
+  slider.addEventListener('input', ()=>{ helpLabel.textContent=levelLabel(+slider.value); });
+
+  function normalize(t){ return (t||'').replace(/\r/g,'').replace(/\s+/g,' ').replace(/\s([,.;:!?])/g,'$1').replace(/\s+—\s+/g,' – ').trim(); }
+  function ensureP(s){ return /[.!?]$/.test(s)?s:s+'.'; }
+
+  function localLift(text, level){
+    // Split citater ud
+    const parts=text.split(/("[^"]+"|“[^”]+”)/).map(x=>({isQuote:/^"|“/.test(x),val:x}));
+    const base=[[/ mega /gi,' meget '],[/ nice /gi,' godt '],[/ vildt /gi,' meget '],[/ ik\b/gi,' ikke']];
+    const more=[[/\bman\b/gi,'eleverne']];
+    function expand(s){ const bits=s.split(/\n|·|•|\u2022|;|, /).map(v=>v.trim()).filter(Boolean); const bridges=['Derfor','Samtidig','Desuden','Kort efter','I praksis','Ifølge skolen']; return bits.map((b,i)=>{ if(/^"/.test(b)) return b; let out=b; if(!/[.!?]$/.test(out)) out=out.charAt(0).toUpperCase()+out.slice(1); if(level>=50){ if(!/\b(er|blev|har|skal|kommer|planlægger|indfører|udvider)\b/i.test(out)) out += (i%2? ' – '+bridges[i%bridges.length].toLowerCase():'') + ' på skolen'; } return ensureP(out); }).join(' ');}    
+    const L = level; // 0..100
+    return parts.map(p=>{ if(p.isQuote){ return p.val.replace(/\“|\”/g,'"'); } let t=' '+normalize(p.val)+' '; base.forEach(([r,v])=> t=t.replace(r,' '+v+' ')); if(L>=50){ more.forEach(([r,v])=> t=t.replace(r,v)); t=expand(t); } else if(L>=25){ t=ensureP(t.trim()); } return t; }).join(' ').replace(/\s+/g,' ').trim();
+  }
+
+  async function gptSuggest(text, level){
+    const key=state.apiKey; if(!key) return null;
+    const note = level>=100? 'Tilføj også en kort underrubrik/manchet (1–2 linjer) før brødteksten.' : '';
+    const user = `Idé: ${$('#idea').value}\nVinkel: ${$('#angle').value}\n\nTekst:\n${text}`;
+    const sys = `Du er dansk redaktør for en skoleavis. Omskriv til klart, neutralt avisdansk. Behold fakta. Udvid stikord til hele sætninger. \nCitater i "…" må kun rettes i stavning/tegn. Niveaunormal: ${level} ud af 100. ${note}`;
+    try{
+      const res = await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${key}`},body:JSON.stringify({model:'gpt-4o-mini',messages:[{role:'system',content:sys},{role:'user',content:user}],temperature:0.35})});
+      if(!res.ok) throw new Error('API-fejl '+res.status);
+      const data=await res.json();
+      return (data.choices?.[0]?.message?.content||'').trim();
+    }catch(e){ console.warn(e); toast('Kunne ikke kontakte GPT – bruger lokal hjælp'); return null; }
+  }
+
+  async function updateSuggestion(){
+    const src = ($('#studentBody').value||'').trim(); if(!src){ aiBox.textContent='(Skriv lidt først …)'; return; }
+    const lvl = +slider.value; // 0..100
+    let out = await gptSuggest(src, lvl);
+    if(!out) out = localLift(src, lvl);
+    // Hvis maks, og der er en manchet i første afsnit, put den i #sub når vi senere går til S4
+    aiBox.textContent = out || '(Intet forslag)';
+  }
+
+  $('#regen').addEventListener('click', updateSuggestion);
+  slider.addEventListener('change', updateSuggestion);
+
+  $('#adoptAI').addEventListener('click', ()=>{ const t=aiBox.textContent.trim(); if(!t) return toast('Intet forslag endnu'); $('#studentBody').value=t; state.data.studentBody=t; save(); toast('AI‑forslag overtaget'); });
+  $('#continueNoAI').addEventListener('click', ()=>{ // flyt elevtekst til S4 felter og videre
+    const final = ($('#studentBody').value||'').trim(); if(!final) return toast('Skriv lidt først');
+    $('#body').value = final; // rubrik/sub udfyldes i S4
+    goTo('s4');
   });
-}
 
-function go(id) {
-  saveCurrentData();
-  screens.forEach(s => document.getElementById(s).classList.remove('show'));
-  document.getElementById(id).classList.add('show');
-  document.querySelectorAll('.step').forEach(x => x.classList.remove('active'));
-  
-  const idx = {s1:0, s2:1, s3:2, s4:3, news:3}[id];
-  if(idx !== undefined) {
-    document.querySelectorAll('.step')[idx].classList.add('active');
-    updateProgress(idx + 1);
-  }
-  
-  appState.currentStep = id;
-  loadDataForStep(id);
-}
+  // --- Avisside (som før) ---
+  function makeHeadlineIdeas4(){ const idea=$('#idea').value||'Artikel', angle=$('#angle').value||''; const arr=[ angle, idea+': '+angle, 'Nyt på skolen: '+angle, angle+' skaber debat', 'Eleverne om '+(idea||'').toLowerCase() ].filter(Boolean); const ul=$('#headlineIdeas4'); if(!ul) return; ul.innerHTML=''; arr.forEach(t=>{ const li=document.createElement('li'); li.textContent=t; li.onclick=()=>{ $('#headline').value=t; toast('Rubrik valgt'); }; ul.appendChild(li); }); }
 
-function updateProgress(step) {
-  const progress = (step / 4) * 100;
-  document.getElementById('progressBar').style.width = progress + '%';
-}
+  function previewImgs(){ const wrap=$('#imagePreview'); wrap.innerHTML=''; state.images.forEach((img,i)=>{ const d=document.createElement('div'); d.style.cssText='position:relative'; d.innerHTML=`<img src="${img.data}" style="width:120px;height:90px;object-fit:cover;border-radius:8px;border:1px solid var(--line)"><button title="Fjern" style="position:absolute;top:-6px;right:-6px;width:22px;height:22px;border:0;border-radius:50%;background:#e25c47;color:#fff;cursor:pointer">×</button>`; d.querySelector('button').onclick=()=>{ state.images.splice(i,1); previewImgs(); }; wrap.appendChild(d); }); }
+  $('#imageUpload').addEventListener('change',function(){ Array.from(this.files).forEach(file=>{ if(file.type.startsWith('image/') && file.size<5*1024*1024){ const r=new FileReader(); r.onload=e=>{ state.images.push({name:file.name,data:e.target.result}); previewImgs(); const msg=$('#imgMsg'); msg.style.display='block'; setTimeout(()=> msg.style.display='none',1500); }; r.readAsDataURL(file);} else toast('For stort/ukendt format: '+file.name); }); this.value=''; });
 
-// Validation
-function validateAndNext(nextStep) {
-  const current = appState.currentStep;
-  let valid = false;
-  let message = '';
+  function updatePageInfo(){ $('#pageInfo').textContent = `Artikler på avissiden: ${state.pageArticles.length}`; }
+  function renderPageList(){ const ul=$('#pageList'); ul.innerHTML=''; state.pageArticles.forEach((a,i)=>{ const li=document.createElement('li'); li.innerHTML=`<span>${i+1}. ${a.headline||'(uden rubrik)'}${a.sub? ' – <em>'+a.sub.substring(0,40)+'</em>':''}</span><button class="btn" data-rm="${i}">Fjern</button>`; ul.appendChild(li); }); ul.querySelectorAll('[data-rm]').forEach(btn=> btn.addEventListener('click', e=>{ const idx=+e.target.getAttribute('data-rm'); state.pageArticles.splice(idx,1); updatePageInfo(); renderPageList(); save(); toast('Fjernet fra avisside'); })); }
 
-  if (current === 's1') {
-    const idea = document.getElementById('idea').value.trim();
-    const angle = document.getElementById('angle').value.trim();
-    if (!idea || !angle) {
-      message = '<div class="error">Udfyld både idé og vinkel før du går videre.</div>';
-    } else {
-      valid = true;
-      message = '<div class="success">Fase 1 er færdig! Gå videre til interviews.</div>';
-      markStepCompleted('s1');
-    }
-    document.getElementById('validation1').innerHTML = message;
-  } else if (current === 's3') {
-    const facts = document.getElementById('facts').value.trim();
-    const quotes = document.getElementById('quotes').value.trim();
-    if (!facts || !quotes) {
-      message = '<div class="error">Indtast både fakta og citater før du går videre.</div>';
-    } else {
-      valid = true;
-      message = '<div class="success">Fase 3 er færdig! Gå videre til redigering.</div>';
-      markStepCompleted('s3');
-    }
-    document.getElementById('validation3').innerHTML = message;
-  }
+  function renderNewspaperHTML(){ const date=new Date().toLocaleDateString('da-DK',{weekday:'long',year:'numeric',month:'long',day:'numeric'}); const blocks=state.pageArticles.map(a=>{ const img=a.image?`<div style="text-align:center;margin:8px 0"><img src="${a.image}" style="max-width:220px;border:1px solid #ccc"></div>`:''; return `<article style="break-inside:avoid;margin-bottom:14px"><h2 style="font-size:18px;margin:0 0 4px">${a.headline||'Uden rubrik'}</h2>${a.sub?`<div style=\"font-style:italic;color:#444;margin-bottom:6px\">${a.sub}</div>`:''}${img}<div style="font-size:13.5px;line-height:1.7;text-align:justify">${(a.body||'').replace(/\n/g,'<br><br>')}</div></article>`; }).join(''); return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>SKOLE AVISEN</title><style>body{margin:12mm auto;max-width:900px;font-family:Georgia,serif} .hdr{border-bottom:3px double #000;padding-bottom:10px;margin-bottom:20px;text-align:center} .hdr h1{margin:0;font-size:28px;letter-spacing:3px} .date{font-size:13px;color:#555;margin-top:4px} .cols{column-count:2;column-gap:18mm}</style></head><body><div class="hdr"><h1>SKOLE AVISEN</h1><div class="date">${date}</div></div><div class="cols">${blocks||'<p>(Ingen artikler endnu)</p>'}</div><div style="text-align:center;font-size:10px;color:#666;margin-top:6px">${state.usedAI? '✨ Tekst sprogløftet af AI på baggrund af elevens research':''}</div></body></html>`; }
 
-  if (valid) {
-    setTimeout(function() {
-      go(nextStep);
-    }, 1000);
-  }
-}
+  function addCurrentToPage(){ const a={ headline:$('#headline').value.trim(), sub:$('#sub').value.trim(), body:$('#body').value.trim(), image:(state.images[0]?.data||null) }; if(!a.headline||!a.body) return toast('Rubrik og brødtekst skal udfyldes'); state.pageArticles.push(a); updatePageInfo(); renderPageList(); save(); toast('Tilføjet: '+a.headline); }
+  $('#addToPage').addEventListener('click', addCurrentToPage);
+  $('#viewPage').addEventListener('click', ()=>{ if(!state.pageArticles.length) addCurrentToPage(); const html=renderNewspaperHTML(); const w=open('','_blank'); if(w){ w.document.write(html); w.document.close(); } else toast('Pop‑up blev blokeret – tillad pop‑ups for at se avissiden'); });
+  $('#clearPage').addEventListener('click', ()=>{ if(confirm('Ryd hele avissiden?')){ state.pageArticles=[]; updatePageInfo(); renderPageList(); save(); toast('Avisside ryddet'); }});
+  $('#print').addEventListener('click', ()=>{ if(!state.pageArticles.length) addCurrentToPage(); const html=renderNewspaperHTML(); const w=open('','_blank'); if(w){ w.document.write(html); w.document.close(); w.focus(); w.print(); } else toast('Pop‑up blev blokeret – tillad pop‑ups for at printe'); });
 
-function markStepCompleted(step) {
-  if (!appState.completedSteps.includes(step)) {
-    appState.completedSteps.push(step);
-  }
-  const stepIndex = {s1:0, s2:1, s3:2, s4:3}[step];
-  if (stepIndex !== undefined) {
-    document.querySelectorAll('.step')[stepIndex].classList.add('completed');
-  }
-}
+  // --- Helpers ---
+  function makeHeadlineIdeas4(){ const idea=$('#idea').value||'Artikel', angle=$('#angle').value||''; const arr=[ angle, idea+': '+angle, 'Nyt på skolen: '+angle, angle+' skaber debat', 'Eleverne om '+(idea||'').toLowerCase() ].filter(Boolean); const ul=$('#headlineIdeas4'); if(!ul) return; ul.innerHTML=''; arr.forEach(t=>{ const li=document.createElement('li'); li.textContent=t; li.onclick=()=>{ $('#headline').value=t; toast('Rubrik valgt'); }; ul.appendChild(li); }); }
 
-// Data persistence
-function saveCurrentData() {
-  const inputs = ['type', 'idea', 'angle', 'facts', 'quotes', 'details', 'draft', 'headline', 'sub', 'body'];
-  inputs.forEach(function(id) {
-    const el = document.getElementById(id);
-    if (el) appState.data[id] = el.value;
-  });
-}
+  // Idea help
+  $('#ideaHelp').addEventListener('click', ()=>{ const type=$('#type').value; const tips={nyhed:'Nye tiltag · ændrede regler · events',reportage:'En time i kantinen · bag kulisserne',interview:'Ny lærer · elev med særlig hobby',feature:'Skolens historie · grøn skole',debat:'Mobiler · lektiecafé – for/imod?', 'ugen-der-gik':'Højdepunkter fra ugen', 'naeste-uge':'Hvad sker der næste uge?'}; alert('💡 Idéer til '+type+':\n\n• '+(tips[type]||'Kig jer omkring og vælg noget nært.')); });
 
-function loadDataForStep(step) {
-  const inputs = ['type', 'idea', 'angle', 'facts', 'quotes', 'details', 'draft', 'headline', 'sub', 'body'];
-  inputs.forEach(function(id) {
-    const el = document.getElementById(id);
-    if (el && appState.data[id]) el.value = appState.data[id];
-  });
-  
-  if (step === 's4') {
-    updateStats();
-  }
-}
-
-function updateStats() {
-  const headline = document.getElementById('headline').value;
-  const body = document.getElementById('body').value;
-  const wordCount = body.split(/\s+/).filter(function(w) { return w.length > 0; }).length;
-  const charCount = body.length;
-  
-  document.getElementById('stats').innerHTML = 
-    'Rubrik: ' + headline.length + ' tegn<br>' +
-    'Brødtekst: ' + wordCount + ' ord, ' + charCount + ' tegn';
-}
-
-// Text-to-Speech
-function toggleSpeak(selector, button) {
-  if (appState.speaking && button.classList.contains('speaking')) {
-    stopSpeaking();
-    return;
-  }
-  
-  if (appState.speaking) {
-    stopSpeaking();
-  }
-  
-  const el = document.querySelector(selector);
-  const text = (el.value || el.textContent || '').trim();
-  if (!text) { 
-    showToast('Ingen tekst at læse op', 'warn');
-    return; 
-  }
-  
-  try {
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'da-DK';
-    u.rate = 0.9;
-    u.pitch = 1.0;
-    
-    u.onstart = function() {
-      appState.speaking = true;
-      appState.currentUtterance = u;
-      button.textContent = '⏹️';
-      button.classList.add('speaking');
-      button.title = 'Stop oplæsning';
-      showToast('Læser op... Tryk igen for at stoppe', 'info');
-    };
-    
-    u.onend = function() {
-      stopSpeaking();
-    };
-    
-    u.onerror = function() {
-      stopSpeaking();
-      showToast('Fejl ved oplæsning', 'error');
-    };
-    
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(u);
-    
-  } catch(e) {
-    showToast('Oplæsning ikke understøttet', 'error');
-  }
-}
-
-function stopSpeaking() {
-  window.speechSynthesis.cancel();
-  appState.speaking = false;
-  appState.currentUtterance = null;
-  
-  document.querySelectorAll('button').forEach(function(btn) {
-    if (btn.classList.contains('speaking')) {
-      btn.textContent = '🔊';
-      btn.classList.remove('speaking');
-      btn.title = 'Læs op';
-    }
-  });
-}
-
-// Speech-to-Text
-function dictate(selector) {
-  const el = document.querySelector(selector);
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  
-  if(!SR) { 
-    showToast('Tale-til-tekst kræver Chrome/Edge og HTTPS', 'error'); 
-    return; 
-  }
-  
-  try {
-    const r = new SR();
-    r.lang = 'da-DK';
-    r.interimResults = false; 
-    r.maxAlternatives = 1;
-    r.continuous = false;
-    
-    r.onstart = function() {
-      showToast('Lyt... Tal nu!', 'info');
-    };
-    
-    r.onerror = function(e) {
-      showToast('Tale-fejl: ' + e.error, 'error');
-    };
-    
-    r.onresult = function(e) { 
-      const t = e.results[0][0].transcript; 
-      el.value = (el.value ? el.value + ' ' : '') + t;
-      showToast('Tekst tilføjet!', 'success');
-      saveCurrentData();
-    };
-    
-    r.start();
-  } catch(e) {
-    showToast('Tale-til-tekst ikke tilgængeligt', 'error');
-  }
-}
-
-// Toast notifications
-function showToast(message, type) {
-  const toast = document.createElement('div');
-  toast.className = 'notice ' + (type || 'info');
-  toast.textContent = message;
-  toast.style.position = 'fixed';
-  toast.style.top = '20px';
-  toast.style.right = '20px';
-  toast.style.zIndex = '1000';
-  toast.style.maxWidth = '300px';
-  
-  document.body.appendChild(toast);
-  setTimeout(function() {
-    if (toast.parentNode) {
-      toast.parentNode.removeChild(toast);
-    }
-  }, 3000);
-}
-
-// AI helpers
-function getAiLevel() {
-  const selected = document.querySelector('input[name="aiLevel"]:checked');
-  return selected ? selected.value : 'basic';
-}
-
-function getAiLevelName(level) {
-  const names = {
-    basic: 'Grundlæggende',
-    advanced: 'Avanceret', 
-    creative: 'Kreativ'
-  };
-  return names[level] || 'Grundlæggende';
-}
-
-function aiIdeaHelp() {
-  const btn = document.getElementById('ideaBtn');
-  const aiLevel = getAiLevel();
-  
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span> Genererer idéer...';
-  
-  const thinkingTime = aiLevel === 'basic' ? 1000 : aiLevel === 'advanced' ? 2000 : 3000;
-  
-  setTimeout(function() {
-    const type = document.getElementById('type').value;
-    const ideas = getIdeasByType(type, aiLevel);
-    const pick = ideas[Math.floor(Math.random() * ideas.length)];
-    
-    document.getElementById('idea').value = pick.title;
-    document.getElementById('angle').value = pick.angle;
-    
-    const suggestions = document.getElementById('ideaSuggestions');
-    let suggestionsHtml = 
-      '<div class="success">' +
-      '<strong>💡 AI-forslag (' + getAiLevelName(aiLevel) + '):</strong><br>' +
-      '<strong>Idé:</strong> ' + pick.title + '<br>' +
-      '<strong>Vinkel:</strong> ' + pick.angle + '<br>' +
-      '<strong>Kilder at kontakte:</strong> ' + pick.sources.join(', ');
-    
-    if (aiLevel !== 'basic') {
-      suggestionsHtml += '<br><strong>Spørgsmål at stille:</strong> ' + pick.questions.join(', ');
-    }
-    
-    if (aiLevel === 'creative') {
-      suggestionsHtml += '<br><strong>Kreativt twist:</strong> ' + pick.twist;
-    }
-    
-    suggestionsHtml += '</div>';
-    suggestions.innerHTML = suggestionsHtml;
-    
-    btn.disabled = false;
-    btn.innerHTML = '💡 Få idé-hjælp';
-    saveCurrentData();
-  }, thinkingTime);
-}
-
-function getIdeasByType(type, aiLevel) {
-  const baseIdeas = {
-    nyhed: [
-      {
-        title: 'Kantinen skifter menu', 
-        angle: 'Elever har ønsket mere grønt – starter næste uge', 
-        sources: ['Kantineleder','Elevrådsformand','Ugens menuplan'],
-        questions: ['Hvad kostede ændringen?', 'Hvor mange elever ønskede det?'],
-        twist: 'Følg en vegetar gennem den første dag med ny menu'
-      },
-      {
-        title: 'Ny skolegård åbner efter ferien', 
-        angle: 'Større legeplads og flere bænke efter forældreindsamling', 
-        sources: ['Skoleleder','Forældre','Byggeudvalg'],
-        questions: ['Hvor mange penge blev samlet ind?', 'Hvem byggede det?'],
-        twist: 'Sammenlign med gamle fotos fra samme sted for 20 år siden'
-      }
-    ],
-    reportage: [
-      {
-        title: 'En dag i kantinen', 
-        angle: 'Følg madlaverne fra morgen til aften', 
-        sources: ['Køkkenpersonale','Elever','Rengøring'],
-        questions: ['Hvor tidligt starter de?', 'Hvor meget mad laves?'],
-        twist: 'Hvad sker der med madresterne? Følg affaldets rejse'
-      }
-    ]
-  };
-  
-  let ideas = baseIdeas[type] || baseIdeas.nyhed;
-  return ideas;
-}
-
-function makeWorksheet() {
-  const type = document.getElementById('type').value;
-  const idea = document.getElementById('idea').value || '—';
-  const angle = document.getElementById('angle').value || '—';
-  
-  if (!idea.trim() || !angle.trim()) {
-    showToast('Udfyld idé og vinkel først', 'warn');
-    return;
-  }
-  
-  const content = '<!doctype html><meta charset="utf-8"><title>Arbejdsark</title>' +
-    '<style>body{font-family:Arial;padding:20px}h1{border-bottom:2px solid #000}</style>' +
-    '<h1>🗎 Arbejdsark – Avisværkstedet</h1>' +
-    '<p><strong>Type:</strong> ' + type + '</p>' +
-    '<p><strong>Idé:</strong> ' + idea + '</p>' +
-    '<p><strong>Vinkel:</strong> ' + angle + '</p>' +
-    '<h3>Noter:</h3>' +
-    '<div style="border:1px solid #ccc;height:200px;margin:10px 0"></div>' +
-    '<h3>Citater:</h3>' +
-    '<div style="border:1px solid #ccc;height:200px;margin:10px 0"></div>';
-  
-  const w = window.open('', 'worksheet', 'width=800,height=600');
-  w.document.write(content); 
-  w.document.close();
-  w.focus();
-  appState.lastWorksheet = content;
-  showToast('Arbejdsark åbnet i nyt vindue', 'success');
-}
-
-function openLastWorksheet() {
-  if (!appState.lastWorksheet) { 
-    showToast('Ingen arbejdsark endnu. Lav et i Fase 1.', 'warn'); 
-    return; 
-  }
-  const w = window.open('', 'worksheet', 'width=800,height=600'); 
-  w.document.write(appState.lastWorksheet); 
-  w.document.close(); 
-  w.focus();
-}
-
-function makeDraft() {
-  const btn = document.getElementById('draftBtn');
-  const status = document.getElementById('draftStatus');
-  
-  const facts = document.getElementById('facts').value.trim();
-  const quotes = document.getElementById('quotes').value.trim();
-  const details = document.getElementById('details').value.trim();
-  
-  if (!facts && !quotes) {
-    showToast('Indtast mindst fakta eller citater først', 'warn');
-    return;
-  }
-  
-  const aiLevel = getAiLevel();
-  
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span> AI skriver kladde...';
-  status.innerHTML = '<div class="notice">AI analyserer jeres materiale (' + getAiLevelName(aiLevel) + ' niveau) og skriver en kladde...</div>';
-  
-  const processingTime = aiLevel === 'basic' ? 2000 : aiLevel === 'advanced' ? 3500 : 5000;
-  
-  setTimeout(function() {
-    const type = document.getElementById('type').value;
-    const idea = document.getElementById('idea').value;
-    const angle = document.getElementById('angle').value;
-    
-    const draft = createIntelligentDraft(type, idea, angle, facts, quotes, details, aiLevel);
-    
-    document.getElementById('draft').value = draft;
-    
-    let statusMessage = '<div class="success">Kladde genereret! ';
-    if (aiLevel === 'advanced') {
-      statusMessage += 'AI har tilføjet ekstra struktur og overgange. ';
-    } else if (aiLevel === 'creative') {
-      statusMessage += 'AI har tilføjet kreative elementer og varieret sproget. ';
-    }
-    statusMessage += 'Du kan nu redigere teksten eller gå videre til fase 4.</div>';
-    
-    status.innerHTML = statusMessage;
-    
-    btn.disabled = false;
-    btn.innerHTML = '🪄 Lav brødtekst-kladde';
-    
-    saveCurrentData();
-  }, processingTime);
-}
-
-function createIntelligentDraft(type, idea, angle, facts, quotes, details, aiLevel) {
-  const lead = generateLead(type, idea, angle, facts, aiLevel);
-  const body = generateBody(facts, quotes, details, aiLevel);
-  const conclusion = generateConclusion(type, angle, aiLevel);
-  
-  if (aiLevel === 'basic') {
-    return lead + '\n\n' + body + '\n\n' + conclusion;
-  } else if (aiLevel === 'advanced') {
-    const transition1 = getTransitionPhrase();
-    const transition2 = getTransitionPhrase();
-    return lead + '\n\n' + transition1 + ' ' + body + '\n\n' + transition2 + ' ' + conclusion;
-  } else {
-    const enhancedLead = enhanceCreatively(lead);
-    const enhancedBody = enhanceCreatively(body);
-    const creativeConclusion = generateCreativeConclusion(type, angle);
-    return enhancedLead + '\n\n' + enhancedBody + '\n\n' + creativeConclusion;
-  }
-}
-
-function getTransitionPhrase() {
-  const transitions = [
-    'Undersøgelser viser, at',
-    'Det fremgår af interviews, at',
-    'Samtidig er det vigtigt at bemærke, at',
-    'For at forstå situationen bedre,',
-    'I den forbindelse'
-  ];
-  return transitions[Math.floor(Math.random() * transitions.length)];
-}
-
-function enhanceCreatively(text) {
-  const sentences = text.split('. ');
-  const enhancedSentences = sentences.map(function(sentence) {
-    if (Math.random() > 0.5) {
-      const starters = ['Bemærkelsesværdigt', 'Interessant nok', 'Det viser sig', 'Faktisk'];
-      const starter = starters[Math.floor(Math.random() * starters.length)];
-      return starter + ', ' + sentence.charAt(0).toLowerCase() + sentence.slice(1);
-    }
-    return sentence;
-  });
-  return enhancedSentences.join('. ');
-}
-
-function generateCreativeConclusion(type, angle) {
-  const creativeConclusions = {
-    nyhed: 'Denne udvikling vil uden tvivl forme fremtiden for mange på skolen.',
-    reportage: 'Bag kulisserne afslører historien både udfordringer og muligheder.',
-    interview: 'Samtalen efterlader læseren med nye perspektiver at overveje.',
-    feature: 'Spørgsmålet rejser bredere diskussioner om vores fælles fremtid.',
-    debat: 'Tiden er kommet til at handle på denne vigtige sag.'
-  };
-  return creativeConclusions[type] || creativeConclusions.nyhed;
-}
-
-function generateLead(type, idea, angle, facts, aiLevel) {
-  const factElements = facts.split(/[.!?]/).filter(function(f) { return f.trim().length > 10; });
-  const mainFact = factElements[0] || idea;
-  
-  const templates = {
-    nyhed: aiLevel === 'creative' ? 
-      angle + '. Denne udvikling, som ' + mainFact.toLowerCase() + ', vil påvirke mange.' :
-      angle + '. ' + mainFact + '.',
-    reportage: aiLevel === 'creative' ?
-      'Klokken slår, og ' + mainFact.toLowerCase() + '. I dag får vi et sjældent indblik i hvordan ' + angle.toLowerCase() + '.' :
-      mainFact + '. Det er en almindelig dag, hvor ' + angle.toLowerCase() + '.',
-    interview: aiLevel === 'creative' ?
-      '"' + angle + '," siger kilden eftertænksomt, mens vi taler om ' + idea.toLowerCase() + '.' :
-      '"' + angle + '," fortæller kilden om ' + idea.toLowerCase() + '.',
-    feature: idea + ' rejser spørgsmålet: ' + angle + '?',
-    debat: angle + '. Det mener vi, fordi ' + mainFact.toLowerCase() + '.'
-  };
-  
-  return templates[type] || templates.nyhed;
-}
-
-function generateBody(facts, quotes, details, aiLevel) {
-  let body = '';
-  
-  if (facts) {
-    const factSentences = facts.split(/[.!?]/).filter(function(f) { return f.trim().length > 5; });
-    if (aiLevel === 'creative') {
-      body += 'Tallene taler deres eget sprog: ' + factSentences.slice(1).join('. ') + '.';
-    } else {
-      body += factSentences.slice(1).join('. ') + '.';
-    }
-  }
-  
-  if (details) {
-    const detailsIntro = aiLevel === 'creative' ? 
-      '\n\nAtmosfæren er tydelig: ' : 
-      aiLevel === 'advanced' ? 
-      '\n\nObservationer fra stedet viser, at ' : 
-      '\n\n';
-    body += detailsIntro + details;
-  }
-  
-  if (quotes) {
-    const quotesIntro = aiLevel === 'creative' ? 
-      '\n\nOrdene fra de involverede er sigende: ' : 
-      aiLevel === 'advanced' ? 
-      '\n\nDe direkte udtalelser bekræfter billedet: ' : 
-      '\n\n';
-    body += quotesIntro + quotes;
-  }
-  
-  return body.trim();
-}
-
-function generateConclusion(type, angle, aiLevel) {
-  if (aiLevel === 'creative') {
-    return generateCreativeConclusion(type, angle);
-  }
-  
-  const conclusions = {
-    nyhed: aiLevel === 'advanced' ? 
-      'Udviklingen følges tæt, og flere opdateringer ventes i de kommende uger.' :
-      'Udviklingen følges tæt i de kommende uger.',
-    reportage: aiLevel === 'advanced' ?
-      'Historien illustrerer tydeligt, hvor central hverdagen er for dem, der lever den.' :
-      'Historien viser, hvor vigtig hverdagen er for dem, der lever den.',
-    interview: 'Samtalen gav nye perspektiver på emnet.',
-    feature: 'Spørgsmålet forbliver relevant for mange.',
-    debat: 'Vi opfordrer alle til at overveje denne vigtige sag.'
-  };
-  
-  return conclusions[type] || conclusions.nyhed;
-}
-
-function improveHeadline() {
-  const idea = document.getElementById('idea').value || 'Nyhed fra skolen';
-  const angle = document.getElementById('angle').value || '';
-  const aiLevel = getAiLevel();
-  
-  let headline = idea + ': ' + angle;
-  let subheadline = angle || 'Ny udvikling påvirker eleverne på skolen';
-  
-  if (aiLevel === 'creative') {
-    headline = 'AFSLØRET: ' + angle;
-    subheadline = subheadline + ' – læs den fulde historie her';
-  } else if (aiLevel === 'advanced') {
-    headline = 'Eksklusive detaljer: ' + angle;
-    subheadline = 'Ekspertanalyse: ' + subheadline;
-  }
-  
-  document.getElementById('headline').value = headline.slice(0, 80);
-  document.getElementById('sub').value = subheadline;
-  
-  showToast(getAiLevelName(aiLevel) + ' rubrik-forslag indsat!', 'success');
-  saveCurrentData();
-}
-
-function shortenDraft() {
-  const draft = document.getElementById('draft');
-  const words = draft.value.split(' ');
-  const shortened = words.slice(0, Math.floor(words.length * 0.9)).join(' ');
-  draft.value = shortened;
-  showToast('Tekst forkortet med 10%', 'info');
-  saveCurrentData();
-}
-
-function copyDraft() {
-  const draft = document.getElementById('draft');
-  draft.select();
-  draft.setSelectionRange(0, 99999);
-  
-  try {
-    document.execCommand('copy');
-    showToast('Kladde kopieret!', 'success');
-  } catch(e) {
-    showToast('Kopiering fejlede - markér teksten manuelt', 'warn');
-  }
-}
-
-function polishBody() {
-  const draft = document.getElementById('draft').value.trim();
-  const body = document.getElementById('body');
-  
-  if (!draft) {
-    showToast('Lav en kladde i fase 3 først', 'warn');
-    return;
-  }
-  
-  let polished = draft
-    .replace(/\s+/g, ' ')
-    .replace(/\s([,.!?])/g, '$1')
-    .replace(/([.!?])\s*([a-zæøå])/g, '$1 $2')
-    .replace(/^[a-zæøå]/gm, function(c) { return c.toUpperCase(); })
-    .trim();
-  
-  body.value = polished;
-  updateStats();
-  showToast('Tekst sprogredigeret!', 'success');
-  saveCurrentData();
-}
-
-function checkReady() {
-  const headline = document.getElementById('headline').value.trim();
-  const sub = document.getElementById('sub').value.trim();
-  const body = document.getElementById('body').value.trim();
-  
-  const tips = [];
-  const wordCount = body.split(/\s+/).filter(function(w) { return w.length > 0; }).length;
-  
-  if (!headline) tips.push('Mangler rubrik');
-  else if (headline.split(' ').length < 3) tips.push('Rubrikken er for kort (mindst 3-8 ord)');
-  else if (headline.length > 80) tips.push('Rubrikken er for lang (max 80 tegn)');
-  
-  if (!sub) tips.push('Mangler underrubrik');
-  else if (sub.length < 20) tips.push('Underrubrikken er for kort');
-  
-  if (!body) tips.push('Mangler brødtekst');
-  else if (wordCount < 50) tips.push('Brødteksten er for kort (mindst 50 ord)');
-  else if (wordCount > 300) tips.push('Brødteksten er lang (overvej at forkorte)');
-  
-  if (!body.match(/\d/)) tips.push('Tilføj konkrete tal/datoer/facts');
-  if (!body.match(/["""]/)) tips.push('Tilføj direkte citater');
-  
-  const ready = document.getElementById('ready');
-  if (tips.length === 0) {
-    ready.innerHTML = '✅ Artiklen er klar til layout!\n\nGod struktur, passende længde og indeholder facts og citater.';
-    ready.className = 'output success';
-    markStepCompleted('s4');
-  } else {
-    ready.innerHTML = '📝 Tjekliste:\n\n• ' + tips.join('\n• ');
-    ready.className = 'output';
-  }
-  
-  updateStats();
-}
-
-function renderNewspaper() {
-  const headline = document.getElementById('headline').value || 'Artiklen mangler rubrik';
-  const sub = document.getElementById('sub').value || 'Underrubrik mangler';
-  const body = (document.getElementById('body').value || 'Brødtekst mangler').replace(/\n/g, '</p><p>');
-  
-  const today = new Date().toLocaleDateString('da-DK', { 
-    weekday: 'long', 
-    year: 'numeric', 
-    month: 'long', 
-    day: 'numeric' 
-  });
-  
-  const html = '<!doctype html><meta charset="utf-8"><title>Skolebladet</title>' +
-    '<style>' +
-    '@page{size:A4; margin:18mm}' +
-    'body{font-family: Georgia, Times, serif; color:#111; line-height:1.6; max-width:none}' +
-    '.header{text-align:center; border-bottom:3px solid #000; padding-bottom:8px; margin-bottom:12px}' +
-    '.masthead{font-size:32px; font-weight:bold; letter-spacing:4px; margin:0}' +
-    '.date{font-size:14px; color:#666; margin:4px 0 0}' +
-    '.article{margin:20px 0}' +
-    '.headline{font-size:28px; font-weight:bold; margin:0 0 8px; line-height:1.2}' +
-    '.subhead{font-size:16px; font-style:italic; color:#444; margin:0 0 16px; line-height:1.3}' +
-    '.byline{font-size:12px; color:#666; margin:0 0 12px; text-transform:uppercase; letter-spacing:1px}' +
-    '.body{font-size:14px; columns:2; column-gap:20px; text-align:justify}' +
-    '.body p{margin:0 0 12px}' +
-    '.body p:first-child{margin-top:0}' +
-    '.body p:first-child::first-letter{font-size:48px; line-height:40px; float:left; margin:0 4px 0 0; font-weight:bold}' +
-    '</style>' +
-    '<div class="header">' +
-    '<h1 class="masthead">SKOLEBLADET</h1>' +
-    '<div class="date">' + today + '</div>' +
-    '</div>' +
-    '<article class="article">' +
-    '<h2 class="headline">' + headline + '</h2>' +
-    '<p class="subhead">' + sub + '</p>' +
-    '<p class="byline">Af Avisværkstedets journalister</p>' +
-    '<div class="body"><p>' + body + '</p></div>' +
-    '</article>';
-  
-  const frame = document.getElementById('paper');
-  frame.srcdoc = html;
-  go('news');
-  showToast('Avis-layout genereret!', 'success');
-}
-
-function printPaper() {
-  const frame = document.getElementById('paper');
-  if (frame.contentWindow) {
-    frame.contentWindow.focus();
-    frame.contentWindow.print();
-  } else {
-    showToast('Vent venligst på layoutet indlæses', 'warn');
-  }
-}
-
-// Auto-save
-setInterval(saveCurrentData, 10000);
-
-// Initialize
-document.addEventListener('DOMContentLoaded', function() {
-  console.log('🚀 Avisværkstedet indlæses...');
-  
-  const criticalFunctions = ['toggleSpeak', 'dictate', 'aiIdeaHelp', 'makeWorksheet', 'go', 'validateAndNext'];
-  console.log('Tjekker funktioner:');
-  criticalFunctions.forEach(function(funcName) {
-    if (typeof window[funcName] === 'function') {
-      console.log('✅ ' + funcName + '() - OK');
-    } else {
-      console.log('❌ ' + funcName + '() - MANGLER');
-    }
-  });
-  
-  setupNavigation();
-  
-  const headlineEl = document.getElementById('headline');
-  const bodyEl = document.getElementById('body');
-  if (headlineEl) headlineEl.addEventListener('input', updateStats);
-  if (bodyEl) bodyEl.addEventListener('input', updateStats);
-  
-  document.querySelectorAll('input[name="aiLevel"]').forEach(function(radio) {
-    radio.addEventListener('change', function() {
-      appState.aiLevel = this.value;
-      showToast('AI-niveau ændret til: ' + getAiLevelName(this.value), 'info');
-    });
-  });
-  
-  window.addEventListener('beforeunload', stopSpeaking);
-  
-  loadDataForStep('s1');
-  
-  showToast('Avisværkstedet er klar! God skrivelyst!', 'success');
-  console.log('✅ Avisværkstedet færdig indlæst');
-  
-  setTimeout(function() {
-    console.log('Test: Klik på en 🔊 knap for at teste oplæsning');
-  }, 1000);
-});
-
-if (window.innerWidth < 768) {
-  document.querySelectorAll('.tools').forEach(function(el) {
-    el.style.flexDirection = 'column';
-  });
-}
-
+  load();
+})();
 </script>
 </body>
 </html>
